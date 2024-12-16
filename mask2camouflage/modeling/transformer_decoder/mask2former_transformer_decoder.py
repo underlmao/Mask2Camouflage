@@ -14,7 +14,7 @@ from detectron2.config import configurable
 from detectron2.layers import Conv2d
 from .position_encoding import PositionEmbeddingSine
 # from soft_attention import SoftClusterMultiheadAttention
-from .meanshift_attention import MeanShiftAttention
+from .globalshift_attention import GlobalShiftAttention
 
 
 # 
@@ -496,8 +496,8 @@ class GlobalCrossAttentionLayer(nn.Module):
     def __init__(self, d_model, nhead, dropout=0.0,
                  activation="relu", normalize_before=False):
         super().__init__()
-        self.multihead_attn_foreground = MeanShiftAttention(d_model, nhead, dropout=dropout)
-        self.multihead_attn_background = MeanShiftAttention(d_model, nhead, dropout=dropout)
+        self.multihead_attn_foreground = GlobalShiftAttention(d_model, nhead, dropout=dropout)
+        self.multihead_attn_background = GlobalShiftAttention(d_model, nhead, dropout=dropout)
 
         self.norm = nn.LayerNorm(d_model)
         self.dropout = nn.Dropout(dropout)
